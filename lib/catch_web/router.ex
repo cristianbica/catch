@@ -9,18 +9,20 @@ defmodule CatchWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
+  pipeline :incoming do
+    plug :accepts, ["*"]
+  end
+
+  scope "/requests", CatchWeb do
+    pipe_through :browser
+
+    get "/", RequestsController, :index
   end
 
   scope "/", CatchWeb do
-    pipe_through :browser
+    pipe_through :incoming
 
-    get "/", PageController, :index
+    get "/", RequestsController, :redirection
+    get "/*path", RequestsController, :create, as: :create_request
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", CatchWeb do
-  #   pipe_through :api
-  # end
 end
