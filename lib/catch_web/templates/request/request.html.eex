@@ -1,0 +1,39 @@
+<div class="col-12">
+  <div class="card mb-3">
+    <div class="card-header bg-white position-relative">
+      <span class="text-muted font-weight-bold">#<%= @request.id %></span>
+      <a href="#req-<%= @request.id %>" data-toggle="collapse" role="button" aria-expanded="false" class="badge badge-info stretched-link ml-1"><%= @request.verb %></a>
+      <code class="text-danger ml-3"><%= @request.path %></code>
+      <small class="text-muted font-italic"><%= @request.inserted_at %></small>
+      <div class="float-right position-relative" style="z-index: 2">
+        <%= link to: Routes.request_path(@conn, :delete, @request), class: "badge badge-info ml-1" do %>
+          <i class="fa fa-link" aria-hidden="true"></i>
+        <% end %>
+
+        <%= link to: Routes.request_path(@conn, :delete, @request), class: "badge badge-danger ml-2", method: :delete, data: [confirm: "Are you sure?"] do %>
+          &times;
+        <% end %>
+      </div>
+    </div>
+
+    <div class="card-body collapse show" id="req-<%= @request.id %>">
+      <div class="row">
+        <div class="col-6">
+          <h5>Params</h5>
+        </div>
+        <div class="col-6">
+          <h5>Headers</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <pre class="h-100"><code class="json h-100 p-3"><%= Jason.encode!(@request.params, pretty: true) %></code></pre>
+        </div>
+        <div class="col-6">
+          <pre class="h-100"><code class="http h-100 p-3"><%= request_headers(@request) %></code></pre>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

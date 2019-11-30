@@ -10,19 +10,19 @@ defmodule CatchWeb.Router do
   end
 
   pipeline :incoming do
-    plug :accepts, ["*"]
+    plug :accepts, ["json", "html", "xml", "*"]
   end
 
   scope "/requests", CatchWeb do
     pipe_through :browser
 
-    get "/", RequestsController, :index
+    resources "/", RequestController, only: [:index, :show, :delete], as: "request"
   end
 
   scope "/", CatchWeb do
     pipe_through :incoming
 
-    get "/", RequestsController, :redirection
-    get "/*path", RequestsController, :create, as: :create_request
+    get "/", RequestController, :redirection
+    match :*, "/*path", RequestController, :create
   end
 end

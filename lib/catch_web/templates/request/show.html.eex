@@ -1,0 +1,5 @@
+<div class="container-fluid mt-5">
+  <div class="row">
+    <%= render_one @request, CatchWeb.RequestView, "request.html", conn: @conn %>
+  </div>
+</div>

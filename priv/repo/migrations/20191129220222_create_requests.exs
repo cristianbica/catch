@@ -6,9 +6,8 @@ defmodule Catch.Repo.Migrations.CreateRequests do
       add :path, :string
       add :verb, :string
       add :content_type, :string
-      add :params, :text
-      add :headers, :text
-      add :body, :text
+      add :params, :map
+      add :headers, :map
 
       timestamps()
     end
